@@ -1,46 +1,45 @@
-//package bronze_questions;
+package USACO;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.Scanner;
 
 public class Cow_Routing {
+    public static void main(String argv[]) throws IOException {
 
-	public static void main(String[] argv) throws IOException {
-		
-		Scanner sc = new Scanner (new File ("cowroute.in"));
-		
-		int cityA = sc.nextInt();
-		int cityB = sc.nextInt();
-		int numOfRoutes = sc.nextInt();
-		int minCost = Integer.MAX_VALUE;
-		
-		for (int i = 0; i < numOfRoutes; i++) {
-			int costOfRoute = sc.nextInt();
-			int numOfCities = sc.nextInt();
-			//int citiesOnRoute [] = new int [numOfCities];
-			boolean alreadySeenA = false;
-			for (int j = 0; j < numOfCities; j++) {
-				int oneCity = sc.nextInt();
-				if (oneCity == cityA) {
-					alreadySeenA = true;
-				}
-				else if (oneCity == cityB) {
-					if (alreadySeenA) {
-						minCost = Math.min(minCost, costOfRoute);
-					}
-				}
-			}
-			
-		}
-			if (minCost == Integer.MAX_VALUE) minCost = -1;
-		
-		
-		
-		
-		PrintWriter out = new PrintWriter(new FileWriter ("cowroute.out"));
-		out.println (minCost);
-		out.close();
+        PrintWriter out = new PrintWriter(new FileWriter("cowroute.out"));
+        Scanner in = new Scanner(new File("cowroute.in"));
 
-	}
+        int cityA = in.nextInt();
+        int cityB = in.nextInt();
+        int numPlanes = in.nextInt();
 
+        int minCost = Integer.MAX_VALUE;
+        for (int i = 0; i < numPlanes; i++){
+            int cost = in.nextInt();
+            int numCities = in.nextInt();
+            int [] cities = new int [numCities];
+            boolean atCityA = false;
+            boolean atCityB = false;
+            for (int j = 0; j < numCities; j++){
+                cities[j] = in.nextInt();
+                if (cities[j] == cityA)
+                    atCityA = true;
+                if (atCityA && cities[j] == cityB)
+                    atCityB = true;
+            }
+            if (atCityA && atCityB){
+                minCost = Math.min(minCost, cost);
+            }
+        }
+
+        if (minCost == Integer.MAX_VALUE)
+            out.println(-1);
+        else
+            out.println(minCost);
+
+        out.close();
+    }
 }
